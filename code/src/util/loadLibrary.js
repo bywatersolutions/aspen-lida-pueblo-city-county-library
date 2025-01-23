@@ -128,8 +128,6 @@ export async function getAppSettings(url, timeout, slug) {
                headers: getHeaders(),
                auth: createAuthTokens(),
           });
-          //console.log("API call: ");
-          //console.log(api);
           const response = await api.get('/SystemAPI?method=getAppSettings', {
                slug
           });
@@ -142,12 +140,13 @@ export async function getAppSettings(url, timeout, slug) {
                //console.log('App settings saved');
                return response.data?.result?.settings ?? [];
           } else {
-               console.log("Did not get valid response from getAppSettings");
+               console.log("Did not get valid response from getAppSettings url: " + url + " slug: " + slug);
                if (response === undefined) {
                     console.log("Response was undefined :(");
                }else{
                     console.log(response);
                }
+               popToast(getTermFromDictionary('en', 'error_no_server_connection'), "Could not retrieve App Settings, please try again later", 'error');
                return [];
           }
      }catch (err) {
