@@ -1,8 +1,22 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { Button, Center, Modal, Text } from 'native-base';
+import {
+     Button,
+     ButtonText,
+     ButtonGroup,
+     Center,
+     Modal,
+     ModalContent,
+     ModalHeader,
+     ModalBody,
+     ModalFooter,
+     Text,
+     Icon,
+     Heading,
+     ModalBackdrop, CloseIcon, ModalCloseButton
+} from '@gluestack-ui/themed';
 import React, { useState } from 'react';
 
-import { LanguageContext, LibrarySystemContext } from '../../../context/initialContext';
+import { LanguageContext, LibrarySystemContext, ThemeContext } from '../../../context/initialContext';
 import { getTermFromDictionary } from '../../../translations/TranslationService';
 import { disableAccountLinking } from '../../../util/api/user';
 
@@ -12,6 +26,7 @@ const DisableAccountLinking = () => {
      const queryClient = useQueryClient();
      const { library } = React.useContext(LibrarySystemContext);
      const { language } = React.useContext(LanguageContext);
+     const { textColor, theme, colorMode } = React.useContext(ThemeContext);
      const [loading, setLoading] = useState(false);
      const [showModal, setShowModal] = useState(false);
 
@@ -28,20 +43,28 @@ const DisableAccountLinking = () => {
 
      return (
           <Center>
-               <Button onPress={toggle}>{getTermFromDictionary(language, 'disable_linked_accounts')}</Button>
+               <Button onPress={toggle} bgColor={theme['colors']['primary']['500']}>
+                    <ButtonText color={theme['colors']['primary']['500-text']}>{getTermFromDictionary(language, 'disable_linked_accounts')}</ButtonText>
+               </Button>
                <Modal isOpen={showModal} onClose={toggle} size="lg">
-                    <Modal.Content maxWidth="95%">
-                         <Modal.CloseButton />
-                         <Modal.Header>{getTermFromDictionary(language, 'disable_linked_accounts_title')}</Modal.Header>
-                         <Modal.Body>
-                              <Text>{getTermFromDictionary(language, 'disable_linked_accounts_body')}</Text>
-                         </Modal.Body>
-                         <Modal.Footer>
-                              <Button.Group>
-                                   <Button variant="ghost" onPress={toggle}>
-                                        {getTermFromDictionary(language, 'close_window')}
+                    <ModalBackdrop />
+                    <ModalContent bgColor={colorMode === 'light' ? theme['colors']['warmGray']['50'] : theme['colors']['coolGray']['700']} maxWidth="95%">
+                         <ModalHeader>
+                              <Heading size="sm" color={textColor}>{getTermFromDictionary(language, 'disable_linked_accounts_title')}</Heading>
+                              <ModalCloseButton hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}>
+                                   <Icon as={CloseIcon} color={textColor} />
+                              </ModalCloseButton>
+                         </ModalHeader>
+                         <ModalBody>
+                              <Text color={textColor}>{getTermFromDictionary(language, 'disable_linked_accounts_body')}</Text>
+                         </ModalBody>
+                         <ModalFooter>
+                              <ButtonGroup>
+                                   <Button variant="link" onPress={toggle}>
+                                        <ButtonText color={theme['colors']['primary']['500']}>{getTermFromDictionary(language, 'close_window')}</ButtonText>
                                    </Button>
                                    <Button
+                                        bgColor={theme['colors']['primary']['500']}
                                         isLoading={loading}
                                         isLoadingText={getTermFromDictionary(language, 'updating', true)}
                                         onPress={async () => {
@@ -51,11 +74,11 @@ const DisableAccountLinking = () => {
                                                   toggle();
                                              });
                                         }}>
-                                        {getTermFromDictionary(language, 'accept')}
+                                        <ButtonText color={theme['colors']['primary']['500-text']}>{getTermFromDictionary(language, 'accept')}</ButtonText>
                                    </Button>
-                              </Button.Group>
-                         </Modal.Footer>
-                    </Modal.Content>
+                              </ButtonGroup>
+                         </ModalFooter>
+                    </ModalContent>
                </Modal>
           </Center>
      );
