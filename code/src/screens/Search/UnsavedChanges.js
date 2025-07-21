@@ -1,69 +1,18 @@
-import { CommonActions, useNavigation } from '@react-navigation/native';
-import { AlertDialog, Button, Center, ChevronLeftIcon, CloseIcon, Pressable } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import { AlertDialog, AlertDialogBackdrop,
+     AlertDialogContent,
+     AlertDialogHeader,
+     AlertDialogBody,
+     AlertDialogFooter, Button, ButtonText, ButtonGroup, Text, Heading, Center, CloseIcon, Pressable } from '@gluestack-ui/themed';
 import React from 'react';
 
 import { SEARCH } from '../../util/search';
 import { getTermFromDictionary } from '../../translations/TranslationService';
-
-export const UnsavedChangesBack = (props) => {
-     const { updateSearch, discardChanges, language } = props;
-     const navigation = useNavigation();
-     const [isOpen, setIsOpen] = React.useState(false);
-     const onClose = () => setIsOpen(false);
-     const cancelRef = React.useRef(null);
-
-     function getStatus() {
-          const hasPendingChanges = SEARCH.hasPendingChanges;
-          if (hasPendingChanges) {
-               // if pending changes found, pop alert to confirm close
-               setIsOpen(true);
-          } else {
-               // if no pending changes, just close it
-               navigation.dispatch(CommonActions.goBack());
-          }
-     }
-
-     // update parameters, then go to search results screen
-     const updateClose = () => {
-          updateSearch(false, true);
-          SEARCH.hasPendingChanges = false;
-     };
-
-     // remove pending parameters, then go back to original search results screen
-     const forceClose = () => {
-          discardChanges();
-          setIsOpen(false);
-          SEARCH.hasPendingChanges = false;
-          navigation.dispatch(CommonActions.goBack());
-     };
-
-     return (
-          <Center>
-               <Pressable onPress={() => getStatus()} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }} ml={3}>
-                    <ChevronLeftIcon size={5} color="primary.baseContrast" />
-               </Pressable>
-               <AlertDialog leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
-                    <AlertDialog.Content>
-                         <AlertDialog.Header>{getTermFromDictionary(language, 'discard_changes')}</AlertDialog.Header>
-                         <AlertDialog.Body>{getTermFromDictionary(language, 'unsaved_changes_warning')}</AlertDialog.Body>
-                         <AlertDialog.Footer>
-                              <Button.Group space={3}>
-                                   <Button colorScheme="primary" onPress={updateClose} ref={cancelRef}>
-                                        {getTermFromDictionary(language, 'save')}
-                                   </Button>
-                                   <Button colorScheme="danger" variant="ghost" onPress={forceClose}>
-                                        {getTermFromDictionary(language, 'discard')}
-                                   </Button>
-                              </Button.Group>
-                         </AlertDialog.Footer>
-                    </AlertDialog.Content>
-               </AlertDialog>
-          </Center>
-     );
-};
+import { ThemeContext } from '../../context/initialContext';
 
 export const UnsavedChangesExit = (props) => {
      const { updateSearch, discardChanges, prevRoute, language } = props;
+     const { theme, colorMode, textColor } = React.useContext(ThemeContext);
      const navigation = useNavigation();
      const [isOpen, setIsOpen] = React.useState(false);
      const onClose = () => setIsOpen(false);
@@ -105,24 +54,29 @@ export const UnsavedChangesExit = (props) => {
 
      return (
           <Center>
-               <Pressable onPress={() => getStatus()} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }} ml={3}>
-                    <CloseIcon size={5} color="primary.baseContrast" />
+               <Pressable onPress={() => getStatus()} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }} ml="$3">
+                    <CloseIcon size="md" color="primary.baseContrast" />
                </Pressable>
                <AlertDialog leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
-                    <AlertDialog.Content>
-                         <AlertDialog.Header>{getTermFromDictionary(language, 'discard_changes')}</AlertDialog.Header>
-                         <AlertDialog.Body>{getTermFromDictionary(language, 'unsaved_changes_warning')}</AlertDialog.Body>
-                         <AlertDialog.Footer>
-                              <Button.Group space={3}>
-                                   <Button colorScheme="primary" onPress={updateClose} ref={cancelRef}>
-                                        {getTermFromDictionary(language, 'save')}
+                    <AlertDialogBackdrop/>
+                    <AlertDialogContent bgColor={colorMode === 'light' ? theme['colors']['warmGray']['50'] : theme['colors']['coolGray']['700']}>
+                         <AlertDialogHeader>
+                              <Heading color={textColor}>{getTermFromDictionary(language, 'discard_changes')}</Heading>
+                         </AlertDialogHeader>
+                         <AlertDialogBody>
+                              <Text color={textColor}>{getTermFromDictionary(language, 'unsaved_changes_warning')}</Text>
+                         </AlertDialogBody>
+                         <AlertDialogFooter>
+                              <ButtonGroup space="sm">
+                                   <Button bgColor={theme['colors']['primary']['500']} onPress={updateClose} ref={cancelRef}>
+                                        <ButtonText color={theme['colors']['primary']['500-text']}>{getTermFromDictionary(language, 'save')}</ButtonText>
                                    </Button>
-                                   <Button colorScheme="danger" variant="ghost" onPress={forceClose}>
-                                        {getTermFromDictionary(language, 'discard')}
+                                   <Button variant="link" onPress={forceClose}>
+                                        <ButtonText color={theme['colors']['danger']['500']}>{getTermFromDictionary(language, 'discard')}</ButtonText>
                                    </Button>
-                              </Button.Group>
-                         </AlertDialog.Footer>
-                    </AlertDialog.Content>
+                              </ButtonGroup>
+                         </AlertDialogFooter>
+                    </AlertDialogContent>
                </AlertDialog>
           </Center>
      );
