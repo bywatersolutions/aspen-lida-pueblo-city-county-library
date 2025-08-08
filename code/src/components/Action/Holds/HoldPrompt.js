@@ -486,16 +486,16 @@ export const HoldPrompt = (props) => {
                                              </SelectTrigger>
                                              <SelectPortal useRNModal={true}>
                                                   <SelectBackdrop />
-                                                  <SelectContent p="$5">
+                                                  <SelectContent  bgColor={colorMode === 'light' ? theme['colors']['warmGray']['50'] : theme['colors']['coolGray']['700']}>
                                                        <SelectDragIndicatorWrapper>
                                                             <SelectDragIndicator />
                                                        </SelectDragIndicatorWrapper>
                                                        <SelectScrollView>
                                                             {locations.map((availableLocations, index) => {
                                                                  if (availableLocations.code === location) {
-                                                                      return <SelectItem label={availableLocations.name} value={availableLocations.code} key={index} bgColor={theme['colors']['tertiary']['300']} />;
+                                                                      return <SelectItem label={availableLocations.name} value={availableLocations.code} key={index}  bgColor={theme['colors']['tertiary']['300']} sx={{ _text: { color: theme['colors']['tertiary']['500-text'] } }} />;
                                                                  }
-                                                                 return <SelectItem label={availableLocations.name} value={availableLocations.code} key={index} />;
+                                                                 return <SelectItem label={availableLocations.name} value={availableLocations.code} key={index} bgColor={location === (availableLocations.code) ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: location === (availableLocations.code) ? theme['colors']['tertiary']['500-text'] : textColor } }} />;
                                                             })}
                                                        </SelectScrollView>
                                                   </SelectContent>
@@ -531,25 +531,36 @@ export const HoldPrompt = (props) => {
                                         </FormControlLabel>
                                         <Select name="linkedAccount" selectedValue={activeAccount} minWidth={200} mt="$1" mb="$3" onValueChange={(itemValue) => updateActiveAccount(itemValue)}>
                                              <SelectTrigger variant="outline" size="md">
-                                                  {accounts.map((item, index) => {
-                                                       if (item.id === activeAccount) {
-                                                            return <SelectInput value={item.displayName} color={textColor} />;
-                                                       } else if (user.id === activeAccount) {
-                                                            return <SelectInput value={user.displayName} color={textColor} />;
+                                                  <SelectInput
+                                                       value={
+                                                            // Find the displayName of the selected account or use placeholder
+                                                            (() => {
+                                                                 if (activeAccount === (user.id)) {
+                                                                      return user.displayName;
+                                                                 }
+                                                                 const found = accounts.find(
+                                                                      item => activeAccount === (item.id)
+                                                                 );
+                                                                 return found ? found.displayName : '';
+                                                            })()
                                                        }
-                                                  })}
-                                                  <SelectIcon mr="$3" as={ChevronDownIcon} color={textColor} />
+                                                       color={textColor}
+                                                       placeholder={getTermFromDictionary(language, 'select_an_account')}
+                                                  />
+                                                  <SelectIcon mr="$3">
+                                                       <Icon as={ChevronDownIcon} color={textColor} />
+                                                  </SelectIcon>
                                              </SelectTrigger>
                                              <SelectPortal useRNModal={true}>
                                                   <SelectBackdrop />
-                                                  <SelectContent>
+                                                  <SelectContent bgColor={colorMode === 'light' ? theme['colors']['warmGray']['50'] : theme['colors']['coolGray']['700']}>
                                                        <SelectDragIndicatorWrapper>
                                                             <SelectDragIndicator />
                                                        </SelectDragIndicatorWrapper>
                                                        <SelectScrollView>
-                                                            <SelectItem label={user.displayName} value={user.id} color={textColor} />
+                                                            <SelectItem label={user.displayName} value={user.id} color={textColor} bgColor={activeAccount === (user.id) ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: activeAccount === (user.id) ? theme['colors']['tertiary']['500-text'] : textColor } }} />
                                                             {accounts.map((item, index) => {
-                                                                 return <SelectItem label={item.displayName} value={item.id} key={index} color={textColor} />;
+                                                                 return <SelectItem label={item.displayName} value={item.id} key={index} color={textColor} bgColor={activeAccount === (item.id) ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: activeAccount === (item.id) ? theme['colors']['tertiary']['500-text'] : textColor } }}  />;
                                                             })}
                                                        </SelectScrollView>
                                                   </SelectContent>
