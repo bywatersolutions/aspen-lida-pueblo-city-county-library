@@ -6,7 +6,7 @@ import { LanguageContext, UserContext } from '../../context/initialContext';
 import { getTermFromDictionary } from '../../translations/TranslationService';
 import { StartCheckOutSession } from '../../screens/SCO/StartCheckOutSession';
 import { SelfCheckOut } from '../../screens/SCO/SelfCheckOut';
-import { FinishCheckOutSession } from '../../screens/SCO/FinishSelfCheckoutSession';
+{/*import { FinishCheckOutSession } from '../../screens/SCO/FinishSelfCheckoutSession';*/}
 import _ from 'lodash';
 import SelfCheckScanner from '../../screens/SCO/SelfCheckScanner';
 
@@ -70,6 +70,7 @@ const SelfCheckOutStackNavigator = () => {
                          ),
                     })}
                />
+               {/*
                <Stack.Screen
                     name="FinishCheckOutSession"
                     component={FinishCheckOutSession}
@@ -81,6 +82,7 @@ const SelfCheckOutStackNavigator = () => {
                          //title: getTermFromDictionary(language, 'finish_checkout_session')
                     }}
                />
+               */}
           </Stack.Navigator>
      );
 };
