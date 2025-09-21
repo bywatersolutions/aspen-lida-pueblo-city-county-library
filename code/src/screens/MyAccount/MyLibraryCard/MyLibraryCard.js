@@ -122,7 +122,12 @@ export const MyLibraryCard = () => {
                          break;
                }
           });
-          return { updateAccounts, brightenScreen, updateOrientation, changeOrientation };
+          return () => {
+               updateAccounts();
+               brightenScreen();
+               updateOrientation();
+               changeOrientation.remove();
+          };
      }, [navigation]);
 
      React.useEffect(() => {
