@@ -71,9 +71,12 @@ export const GetLoginForm = (props) => {
      React.useEffect(() => {
           const loadDefaultUsername = async () => {
                try {
-
                     const defaultUsername = await SecureStore.getItemAsync('defaultUsername');
-                    if (defaultUsername !== null) {
+                    if (barcode) 
+                    {
+                         setUsername(barcode);
+                    }
+                    else if (defaultUsername !== null && defaultUsername) {
                          setUsername(defaultUsername); // Set the retrieved username
                          //logDebugMessage("Default username is: " + defaultUsername);
                     }
@@ -85,7 +88,7 @@ export const GetLoginForm = (props) => {
           };
 
           loadDefaultUsername();
-     }, []);
+     }, [barcode]);
 
      const initialValidation = async () => {
           setLoginError(false);
