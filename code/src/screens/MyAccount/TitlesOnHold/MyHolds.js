@@ -119,6 +119,8 @@ export const MyHolds = () => {
                     navigation.setOptions({ title: getTermFromDictionary(language, 'titles_on_hold_for_ils') });
                } else if (value === 'overdrive') {
                     navigation.setOptions({ title: filterByLibbyTitle });
+               } else if (value === 'hoopla') {
+                    navigation.setOptions({ title: getTermFromDictionary(language, 'titles_on_hold_for_hoopla') });
                } else if (value === 'cloud_library') {
                     navigation.setOptions({ title: getTermFromDictionary(language, 'titles_on_hold_for_cloud_library') });
                } else if (value === 'axis360') {
@@ -516,6 +518,8 @@ export const MyHolds = () => {
                          return getTermFromDictionary(language, 'filter_by_ils') + " (" + (user.numHoldsRequestedIls ?? 0) + ")";
                     case "overdrive":
                          return filterByLibby + " (" + (user.numHoldsOverDrive ?? 0) + ")";
+                    case "hoopla":
+                         return getTermFromDictionary(language, 'filter_by_hoopla') + " (" + (user.numHolds_Hoopla ?? 0) + ")";
                     case "cloud_library":
                          return getTermFromDictionary(language, 'filter_by_cloud_library') + " (" + (user.numHolds_cloudLibrary ?? 0) + ")";
                     case "axis360":
@@ -572,9 +576,10 @@ export const MyHolds = () => {
                                                   <SelectItem label={getTermFromDictionary(language, 'filter_by_all') + ' (' + (user.numHolds ?? 0) + ')'} value="all" key={0}  bgColor={holdSource == "all" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "all" ? theme['colors']['tertiary']['500-text'] : textColor } }}/>
                                                   <SelectItem label={getTermFromDictionary(language, 'filter_by_ils') + ' (' + (user.numHoldsRequestedIls ?? 0) + ')'} value="ils" key={1}  bgColor={holdSource == "ils" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "ils" ? theme['colors']['tertiary']['500-text'] : textColor } }}/>
                                                   {user.isValidForOverdrive ? <SelectItem label={filterByLibby + ' (' + (user.numHoldsOverDrive ?? 0) + ')'} value="overdrive" key={2}  bgColor={holdSource == "overdrive" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "overdrive" ? theme['colors']['tertiary']['500-text'] : textColor } }} /> : null}
-                                                  {user.isValidForCloudLibrary ? <SelectItem label={getTermFromDictionary(language, 'filter_by_cloud_library') + ' (' + (user.numHolds_cloudLibrary ?? 0) + ')'} value="cloud_library" key={3}  bgColor={holdSource == "cloud_library" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "cloud_library" ? theme['colors']['tertiary']['500-text'] : textColor } }}/> : null}
-                                                  {user.isValidForAxis360 ? <SelectItem label={getTermFromDictionary(language, 'filter_by_boundless') + ' (' + (user.numHolds_axis360 ?? 0) + ')'} value="axis360" key={4}  bgColor={holdSource == "axis360" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "axis360" ? theme['colors']['tertiary']['500-text'] : textColor } }}/> : null}
-                                                  {user.isValidForPalaceProject ? <SelectItem label={getTermFromDictionary(language, 'filter_by_palace_project') + ' (' + (user.numHolds_PalaceProject ?? 0) + ')'} value="palace_project" key={5}  bgColor={holdSource == "palace_project" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "palace_project" ? theme['colors']['tertiary']['500-text'] : textColor } }}/> : null}
+                                                  {user.isValidForHoopla ? <SelectItem label={getTermFromDictionary(language, 'filter_by_hoopla') + ' (' + (user.numHolds_Hoopla ?? 0) + ')'} value="hoopla" key={3}  bgColor={holdSource == "hoopla" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "hoopla" ? theme['colors']['tertiary']['500-text'] : textColor } }}/> : null}
+                                                  {user.isValidForCloudLibrary ? <SelectItem label={getTermFromDictionary(language, 'filter_by_cloud_library') + ' (' + (user.numHolds_cloudLibrary ?? 0) + ')'} value="cloud_library" key={4}  bgColor={holdSource == "cloud_library" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "cloud_library" ? theme['colors']['tertiary']['500-text'] : textColor } }}/> : null}
+                                                  {user.isValidForAxis360 ? <SelectItem label={getTermFromDictionary(language, 'filter_by_boundless') + ' (' + (user.numHolds_axis360 ?? 0) + ')'} value="axis360" key={5}  bgColor={holdSource == "axis360" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "axis360" ? theme['colors']['tertiary']['500-text'] : textColor } }}/> : null}
+                                                  {user.isValidForPalaceProject ? <SelectItem label={getTermFromDictionary(language, 'filter_by_palace_project') + ' (' + (user.numHolds_PalaceProject ?? 0) + ')'} value="palace_project" key={6}  bgColor={holdSource == "palace_project" ? theme['colors']['tertiary']['300'] : ''} sx={{ _text: { color: holdSource == "palace_project" ? theme['colors']['tertiary']['500-text'] : textColor } }}/> : null}
                                              </SelectContent>
                                         </SelectPortal>
                                    </Select>
@@ -683,4 +688,3 @@ export const MyHolds = () => {
           </Box>
      );
 };
-

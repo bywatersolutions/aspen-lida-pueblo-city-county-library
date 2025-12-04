@@ -278,6 +278,10 @@ export async function getTranslatedTermsForAllLanguages(languages, url) {
                     value: getTermFromDictionary(language, 'libby'),
                },
                {
+                    key: 'titles_on_hold_for_hoopla',
+                    value: getTermFromDictionary(language, 'hoopla'),
+               },
+               {
                     key: 'titles_on_hold_for_cloud_library',
                     value: getTermFromDictionary(language, 'cloud_library'),
                },
