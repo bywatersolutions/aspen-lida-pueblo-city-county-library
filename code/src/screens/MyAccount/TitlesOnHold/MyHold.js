@@ -314,7 +314,7 @@ export const MyHold = (props) => {
                     );
                } else {
                     if (library.showDateWhenSuspending) {
-                         return <SelectThawDate isOpen={showActionsheet} label={null} freezeLabel={freezeHoldLabel} freezingLabel={freezingHoldLabel} language={language} libraryContext={library} holdsContext={updateHolds} onClose={handleClose} freezeId={hold.cancelId} recordId={record} source={hold.source} libraryUrl={library.baseUrl} userId={hold.userId} resetGroup={resetGroup} textColor={textColor} colorMode={colorMode} />;
+                         return <SelectThawDate isOpen={showActionsheet} label={null} freezeLabel={freezeHoldLabel} freezingLabel={freezingHoldLabel} language={language} libraryContext={library} holdsContext={updateHolds} onClose={handleClose} freezeId={hold.cancelId} recordId={record} source={hold.source} libraryUrl={library.baseUrl} userId={hold.userId} resetGroup={resetGroup} textColor={textColor} colorMode={colorMode} theme={theme}/>;
                     }else{
                          return (
                               <ActionsheetItem
@@ -515,7 +515,7 @@ export const ManageSelectedHolds = (props) => {
      const freezeActionItem = () => {
           if (numToFreeze > 0) {
                if (library.showDateWhenSuspending) {
-                    return <SelectThawDate isOpen={showActionsheet} label={numToFreezeLabel} freezeLabel={freezeHoldLabel} freezingLabel={freezingHoldLabel} language={language} holdsContext={updateHolds} libraryContext={library} resetGroup={resetGroup} onClose={handleClose} count={numToFreeze} numSelected={numSelected} data={titlesToFreeze} colorMode={colorMode} textColor={textColor} />;
+                    return <SelectThawDate isOpen={showActionsheet} label={numToFreezeLabel} freezeLabel={freezeHoldLabel} freezingLabel={freezingHoldLabel} language={language} holdsContext={updateHolds} libraryContext={library} resetGroup={resetGroup} onClose={handleClose} count={numToFreeze} numSelected={numSelected} data={titlesToFreeze} colorMode={colorMode} textColor={textColor} theme={theme}/>;
                }else{
                     return (
                          <ActionsheetItem
@@ -635,7 +635,7 @@ export const ManageAllHolds = (props) => {
      const freezeAllActionItem = () => {
           if (numToFreeze > 0) {
                if (library.showDateWhenSuspending) {
-                    return <SelectThawDate label={numToFreezeLabel} freezeLabel={freezeHoldLabel} freezingLabel={freezingHoldLabel} language={language} holdsContext={updateHolds} libraryContext={library} resetGroup={resetGroup} onClose={handleClose} count={numToFreeze} numSelected={numToManage} data={titlesToFreeze} textColor={textColor} colorMode={colorMode} />;
+                    return <SelectThawDate label={numToFreezeLabel} freezeLabel={freezeHoldLabel} freezingLabel={freezingHoldLabel} language={language} holdsContext={updateHolds} libraryContext={library} resetGroup={resetGroup} onClose={handleClose} count={numToFreeze} numSelected={numToManage} data={titlesToFreeze} textColor={textColor} colorMode={colorMode} theme={theme}/>;
                }else{
                     return (
                          <ActionsheetItem

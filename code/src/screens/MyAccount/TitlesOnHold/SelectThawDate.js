@@ -2,13 +2,38 @@ import React from 'react';
 import {Text} from "react-native";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { MaterialIcons } from '@expo/vector-icons';
-import {  ActionsheetIcon, ActionsheetItem, ActionsheetItemText, Button, ButtonGroup, ButtonText, Center, Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel, CloseIcon, Heading, HStack, Icon, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, useToken } from '@gluestack-ui/themed';
-import { LanguageContext, ThemeContext } from '../../../context/initialContext';
+import {  ActionsheetIcon,
+          ActionsheetItem, 
+          ActionsheetItemText, 
+          Button, 
+          ButtonGroup, 
+          ButtonText, 
+          Center, 
+          Checkbox, 
+          CheckboxIcon, 
+          CheckboxIndicator, 
+          CheckboxLabel, 
+          CloseIcon,
+          FormControl,
+          FormControlLabel,
+          FormControlLabelText, 
+          Heading, 
+          HStack, 
+          Icon, 
+          Modal, 
+          ModalBackdrop, 
+          ModalBody, 
+          ModalCloseButton,
+          ModalContent, 
+          ModalFooter, 
+          ModalHeader, 
+          useToken } from '@gluestack-ui/themed';
+import { LanguageContext } from '../../../context/initialContext';
 import { freezeHold, freezeHolds } from '../../../util/accountActions';
 import { getTermFromDictionary } from '../../../translations/TranslationService';
 
 export const SelectThawDate = (props) => {
-     const { freezingLabel, freezeLabel, label, libraryContext, onClose, freezeId, recordId, source, userId, resetGroup, showActionsheet, textColor, colorMode } = props;
+     const { freezingLabel, freezeLabel, label, libraryContext, onClose, freezeId, recordId, source, userId, resetGroup, showActionsheet, textColor, colorMode, theme } = props;
      let data = props.data;
      const { language } = React.useContext(LanguageContext);
      const [loading, setLoading] = React.useState(false);
@@ -24,8 +49,6 @@ export const SelectThawDate = (props) => {
      const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
      const [showIndefiniteWarning, setShowIndefiniteWarning] = React.useState(false);
      const [freezeIndefinite, setFreezeIndefinite] = React.useState(false);
-     //not including textColor here because its already passed into this component
-     const {theme } = React.useContext(ThemeContext);
 
      const showDatePicker = () => {
           if(libraryContext.reactivateDateNotRequired ?? false)
@@ -84,29 +107,35 @@ export const SelectThawDate = (props) => {
                               </ModalCloseButton>
                          </ModalHeader>
                          <ModalBody>
-                              <Text>{getTermFromDictionary("en", "freeze_indefinite_warning")}</Text>
-                              <Checkbox 
-                                   onChange={(value) => setFreezeIndefinite(value)}
-                                   accessibilityLabel={getTermFromDictionary("en", "freeze_indefinite_checkbox")}
-                                   defaultIsChecked={freezeIndefinite}>
-                                   <CheckboxIndicator
-                                        sx={{
-                                        ':checked': {
-                                             borderColor: theme['colors']['primary']['500'],
-                                             backgroundColor: theme['colors']['primary']['500'],
-                                        },
-                                   }}>
-                                        {freezeIndefinite && <Icon as={MaterialIcons} name="check" color={theme['colors']['primary']['500-text']} size="sm" />}
-                                   </CheckboxIndicator>
-                                   <CheckboxLabel pl="$2">
-                                        <Text color={textColor}>
-                                        {getTermFromDictionary("en", "freeze_indefinite_checkbox")}
-                                        </Text>
-                                   </CheckboxLabel>
-                              </Checkbox>
+                              <FormControl>
+                                   <FormControlLabel>
+                                        <FormControlLabelText>
+                                             {getTermFromDictionary("en", "freeze_indefinite_warning")}
+                                        </FormControlLabelText>
+                                   </FormControlLabel>
+                                   <Checkbox 
+                                        onChange={(value) => setFreezeIndefinite(value)}
+                                        accessibilityLabel={getTermFromDictionary("en", "freeze_indefinite_checkbox")}
+                                        defaultIsChecked={freezeIndefinite}>
+                                        <CheckboxIndicator
+                                             sx={{
+                                             ':checked': {
+                                                  borderColor: theme['colors']['primary']['500'],
+                                                  backgroundColor: theme['colors']['primary']['500'],
+                                             },
+                                        }}>
+                                             {freezeIndefinite && <Icon as={MaterialIcons} name="check" color={theme['colors']['primary']['500-text']} size="sm" />}
+                                        </CheckboxIndicator>
+                                        <CheckboxLabel pl="$2">
+                                             <Text color={textColor}>
+                                             {getTermFromDictionary("en", "freeze_indefinite_checkbox")}
+                                             </Text>
+                                        </CheckboxLabel>
+                                   </Checkbox>
+                              </FormControl>
                          </ModalBody>
                          <ModalFooter>
-                              <ButtonGroup space={2} size="md">
+                              <ButtonGroup>
                                    <HStack >
                                    <Button 
                                         bgColor={theme['colors']['primary']['500']}
@@ -114,7 +143,10 @@ export const SelectThawDate = (props) => {
                                         onPress={hideDatePicker}>
                                         <ButtonText color={theme['colors']['primary']['500-text']}>{getTermFromDictionary("en", "cancel")}</ButtonText>
                                    </Button>
-                                   <Button style={{margin:5}} onPress={() => {
+                                   <Button 
+                                        style={{margin:5}}
+                                        bgColor={theme['colors']['primary']['500']}
+                                        onPress={() => {
                                         if(freezeIndefinite)
                                         {
                                              onSelectDate();
