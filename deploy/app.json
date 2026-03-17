@@ -1,0 +1,15 @@
+{
+  "name": "Pueblo City-County Library",
+  "slug": "pueblo-city-county-library",
+  "easId": "fcd02929-5f26-4bc3-a4cd-2c236a9fbff4",
+  "reverseDns": "org.aspendiscovery.pueblo",
+  "discoveryUrl": "https://catalog.pueblolibrary.org/",
+  "greenhouseUrl": "https://catalog.pueblolibrary.org/",
+  "libraryId": "2",
+  "themeId": "1",
+  "background": "#ffffff",
+  "sentryProject": "aspen-lida-pueblo",
+  "sentryDsn": "https://906cf64b030937730fe1cc7b853c3046@o994439.ingest.us.sentry.io/4507012691001344",
+  "ascAppId": "6480421244",
+  "logLevel": "0"
+}
